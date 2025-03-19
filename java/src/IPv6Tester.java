@@ -1,4 +1,4 @@
-package com.soundly.network;
+package com.ipv6tools;
 
 import java.net.Inet6Address;
 import java.net.InetSocketAddress;
