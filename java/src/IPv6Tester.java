@@ -10,6 +10,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
+import java.net.NetworkInterface;
+import java.net.InetAddress;
+import java.util.Collections;
+import java.util.List;
 
 public class IPv6Tester {
     private static final int DEFAULT_PORT = 8080;
@@ -19,6 +23,10 @@ public class IPv6Tester {
     private static final ExecutorService executorService = Executors.newFixedThreadPool(MAX_CLIENTS);
 
     public static void main(String[] args) {
+        // Prefer IPv6 addresses
+        System.setProperty("java.net.preferIPv4Stack", "false");
+        System.setProperty("java.net.preferIPv6Addresses", "true");
+
         if (args.length < 1 || args.length > 3) {
             printUsage();
             System.exit(1);
@@ -50,10 +58,31 @@ public class IPv6Tester {
         System.out.println("  server|client    - Required. Run as server or client");
         System.out.println("  ipv6_address     - Optional. IPv6 address (default: ::1)");
         System.out.println("  port             - Optional. Port number (default: 8080)");
+        System.out.println("\nAvailable IPv6 addresses on this host:");
+        printAvailableIPv6Addresses();
         System.out.println("\nExamples:");
         System.out.println("  java IPv6Tester server");
-        System.out.println("  java IPv6Tester server 2001:db8::1");
-        System.out.println("  java IPv6Tester client 2001:db8::1 8888");
+        System.out.println("  java IPv6Tester server 2001:db8:1234:5678::1");
+        System.out.println("  java IPv6Tester client 2001:db8:1234:5678::1 8888");
+    }
+
+    private static void printAvailableIPv6Addresses() {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface iface : interfaces) {
+                if (iface.isUp() && !iface.isLoopback() && !iface.isVirtual()) {
+                    List<InetAddress> addresses = Collections.list(iface.getInetAddresses());
+                    for (InetAddress addr : addresses) {
+                        if (addr instanceof Inet6Address) {
+                            Inet6Address ipv6Addr = (Inet6Address) addr;
+                            System.out.printf("  %s: %s%n", iface.getDisplayName(), ipv6Addr.getHostAddress());
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error getting network interfaces: " + e.getMessage());
+        }
     }
 
     private static int parsePort(String portStr) {
