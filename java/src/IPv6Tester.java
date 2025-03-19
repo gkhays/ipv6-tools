@@ -7,11 +7,16 @@ import java.net.Socket;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 
 public class IPv6Tester {
     private static final int DEFAULT_PORT = 8080;
     private static final String DEFAULT_IPV6_ADDRESS = "::1";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final int MAX_CLIENTS = 10;
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(MAX_CLIENTS);
 
     public static void main(String[] args) {
         if (args.length < 1 || args.length > 3) {
@@ -71,32 +76,56 @@ public class IPv6Tester {
             // Bind to specified IPv6 address
             serverSocket.bind(new InetSocketAddress(ipv6Address, port));
             System.out.println("IPv6 Server started on [" + ipv6Address + "]:" + port);
+            System.out.println("Maximum number of simultaneous clients: " + MAX_CLIENTS);
 
-
-                try (Socket clientSocket = serverSocket.accept();
-                     PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                     BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-
+            while (true) {
+                try {
+                    Socket clientSocket = serverSocket.accept();
                     String clientAddress = clientSocket.getInetAddress().getHostAddress();
                     System.out.println("Client connected from: [" + clientAddress + "]");
 
-		    while (true) {
-                       // Read client message
-                       String message = in.readLine();
-                       System.out.println("Received from client: " + message);
-
-                       // Send response with timestamp
-                       String response = "Server received your message at " + LocalDateTime.now().format(formatter) + "address " + serverSocket.getInetAddress().getHostAddress();
-                       out.println(response);
-                       
-                       // Add a delay of 1 second
-                       Thread.sleep(1000);
-		    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.err.println("Sleep interrupted: " + e.getMessage());
+                    try {
+                        // Handle each client in a separate thread
+                        executorService.submit(() -> handleClient(clientSocket, clientAddress));
+                    } catch (RejectedExecutionException e) {
+                        System.out.println("Maximum number of clients reached. Rejecting connection from: [" + clientAddress + "]");
+                        clientSocket.close();
+                    }
+                } catch (IOException e) {
+                    System.err.println("Error accepting client connection: " + e.getMessage());
+                    e.printStackTrace();
                 }
+            }
+        }
+    }
 
+    private static void handleClient(Socket clientSocket, String clientAddress) {
+        try (clientSocket;
+             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+
+            while (true) {
+                // Read client message
+                String message = in.readLine();
+                if (message == null) {
+                    System.out.println("Client disconnected: [" + clientAddress + "]");
+                    break;
+                }
+                System.out.println("Received from client [" + clientAddress + "]: " + message);
+
+                // Send response with timestamp
+                String response = "Server received your message at " + LocalDateTime.now().format(formatter) + " address " + clientAddress;
+                out.println(response);
+
+                // Add a delay of 1 second
+                Thread.sleep(1000);
+            }
+        } catch (IOException e) {
+            System.err.println("Error handling client [" + clientAddress + "]: " + e.getMessage());
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.err.println("Sleep interrupted for client [" + clientAddress + "]: " + e.getMessage());
         }
     }
 
