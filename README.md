@@ -46,12 +46,6 @@ java java/src/com/ipv6tools/IPv6Tester.java server [ipv6_address] [port]
 java java/src/com/ipv6tools/IPv6Tester.java client [ipv6_address] [port]
 ```
 
-### Parameters
-
-- `server|client`: Required. Specifies whether to run as a server or client
-- `ipv6_address`: Optional. The IPv6 address to bind to (default: ::1)
-- `port`: Optional. The port number to use (default: 8080)
-
 ### Viewing Available IPv6 Addresses
 
 To see all available IPv6 addresses on your system, simply run the tool without any arguments:
