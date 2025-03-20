@@ -132,18 +132,19 @@ public class IPv6Tester {
         try (clientSocket;
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-
+            String clientAddress = clientSocket.getInetAddress().getHostAddress();
             while (true) {
                 // Read client message
                 String message = in.readLine();
                 if (message == null) {
+                    
                     System.out.println("Client disconnected: [" + clientAddress + "]");
                     break;
                 }
                 System.out.println("Received from client [" + clientAddress + "]: " + message);
 
                 // Send response with timestamp
-                String response = "Server received your message at " + LocalDateTime.now().format(formatter) + " address " + serverAddress;
+                String response = "Server received your message at " + LocalDateTime.now().format(formatter) + " at address " + serverAddress;
                 out.println(response);
 
                 // Add a delay of 1 second
