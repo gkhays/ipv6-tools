@@ -115,7 +115,7 @@ public class IPv6Tester {
 
                     try {
                         // Handle each client in a separate thread
-                        executorService.submit(() -> handleClient(clientSocket, clientAddress));
+                        executorService.submit(() -> handleClient(clientSocket, ipv6Address));
                     } catch (RejectedExecutionException e) {
                         System.out.println("Maximum number of clients reached. Rejecting connection from: [" + clientAddress + "]");
                         clientSocket.close();
@@ -128,7 +128,7 @@ public class IPv6Tester {
         }
     }
 
-    private static void handleClient(Socket clientSocket, String clientAddress) {
+    private static void handleClient(Socket clientSocket, String serverAddress) {
         try (clientSocket;
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
@@ -143,7 +143,7 @@ public class IPv6Tester {
                 System.out.println("Received from client [" + clientAddress + "]: " + message);
 
                 // Send response with timestamp
-                String response = "Server received your message at " + LocalDateTime.now().format(formatter) + " address " + clientAddress;
+                String response = "Server received your message at " + LocalDateTime.now().format(formatter) + " address " + serverAddress;
                 out.println(response);
 
                 // Add a delay of 1 second
