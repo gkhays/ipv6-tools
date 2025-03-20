@@ -7,6 +7,7 @@ import argparse
 from typing import List, Tuple
 import logging
 import os
+import subprocess
 
 class IPv6Tester:
     DEFAULT_PORT = 8080
@@ -35,7 +36,7 @@ class IPv6Tester:
         self.logger.info("\nPython IPv6 related properties:")
         self.logger.info(f"  socket.AF_INET6: {socket.AF_INET6}")
         self.logger.info(f"  socket.has_ipv6: {socket.has_ipv6}")
-        self.logger.info(f"  IPV6_V6ONLY: {os.environ.get('IPV6_V6ONLY', 'not set')}")
+        self.logger.info(f"  environment variable IPV6_V6ONLY: {os.environ.get('IPV6_V6ONLY', 'not set')}")
         
         # Check system IPv6 configuration
         try:
@@ -69,10 +70,23 @@ class IPv6Tester:
         except Exception as e:
             self.logger.error(f"Error getting network interfaces: {e}")
 
+    def log_socket_properties(self, writer: asyncio.StreamWriter, context: str) -> None:
+        """Log IPv6 properties of a socket from a stream writer."""
+        try:
+            sock = writer.get_extra_info('socket')
+            self.logger.info(f"\nSocket properties for {context}:")
+            self.logger.info(f"  Socket family: {sock.family}")
+            self.logger.info(f"  Socket type: {sock.type}")
+            self.logger.info(f"  Socket protocol: {sock.proto}")
+            self.logger.info(f"  Socket IPv6 only: {sock.getsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY)}")
+        except Exception as e:
+            self.logger.error(f"Could not get socket properties for {context}: {e}")
+
     async def handle_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter, server_address: str) -> None:
         """Handle individual client connections."""
         client_address = writer.get_extra_info('peername')[0]
         self.logger.info(f"Client connected from: [{client_address}]")
+        self.log_socket_properties(writer, f"client connection from [{client_address}]")
 
         try:
             while True:
@@ -126,6 +140,7 @@ class IPv6Tester:
                 family=socket.AF_INET6
             )
             self.logger.info(f"Connected to server at [{ipv6_address}]:{port}")
+            self.log_socket_properties(writer, f"client connection to [{ipv6_address}]:{port}")
 
             try:
                 for i in range(20):
