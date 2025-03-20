@@ -1,4 +1,4 @@
-package com.ipv6tools;
+package com.ittysensor.ipv6tools;  
 
 import java.net.Inet6Address;
 import java.net.InetSocketAddress;
