@@ -6,6 +6,7 @@ import datetime
 import argparse
 from typing import List, Tuple
 import logging
+import os
 
 class IPv6Tester:
     DEFAULT_PORT = 8080
@@ -34,6 +35,22 @@ class IPv6Tester:
         self.logger.info("\nPython IPv6 related properties:")
         self.logger.info(f"  socket.AF_INET6: {socket.AF_INET6}")
         self.logger.info(f"  socket.has_ipv6: {socket.has_ipv6}")
+        self.logger.info(f"  IPV6_V6ONLY: {os.environ.get('IPV6_V6ONLY', 'not set')}")
+        
+        # Check system IPv6 configuration
+        try:
+            with open('/proc/sys/net/ipv6/conf/all/disable_ipv6', 'r') as f:
+                ipv6_disabled = f.read().strip() == '1'
+            self.logger.info(f"  System IPv6 enabled: {not ipv6_disabled}")
+        except FileNotFoundError:
+            # Not on Linux, try macOS
+            try:
+                import subprocess
+                result = subprocess.run(['sysctl', 'net.inet6.ip6.forwarding'], 
+                                     capture_output=True, text=True)
+                self.logger.info(f"  System IPv6 forwarding: {result.stdout.strip()}")
+            except FileNotFoundError:
+                self.logger.info("  System IPv6 status: Unable to determine")
         
         self.logger.info("\nExamples:")
         self.logger.info("  python ipv6_tester.py server")

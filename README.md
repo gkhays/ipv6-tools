@@ -188,12 +188,23 @@ Available IPv6 addresses on this host:
 Python IPv6 related properties:
   socket.AF_INET6: 10
   socket.has_ipv6: True
+  IPV6_V6ONLY: not set
+
+System IPv6 configuration:
+  System IPv6 enabled: true
+  (On macOS, shows: System IPv6 forwarding: net.inet6.ip6.forwarding: 1)
 
 Examples:
   python ipv6_tester.py server
   python ipv6_tester.py server 2001:db8:1234:5678::1
   python ipv6_tester.py client 2001:db8:1234:5678::1 8888
 ```
+
+The output includes:
+1. Available IPv6 addresses on the system
+2. Python's IPv6 capabilities and configuration
+3. System-level IPv6 status
+4. Usage examples and command-line options
 
 ## 🤝 Contributing
 
