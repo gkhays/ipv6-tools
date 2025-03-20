@@ -37,13 +37,13 @@ The `IPv6Tester` class can be run in either server or client mode. Here are the 
 ### Running as Server
 
 ```bash
-java java/src/com/ipv6tools/IPv6Tester.java server [ipv6_address] [port]
+java java/src/IPv6Tester.java server [ipv6_address] [port]
 ```
 
 ### Running as Client
 
 ```bash
-java java/src/com/ipv6tools/IPv6Tester.java client [ipv6_address] [port]
+java java/src/IPv6Tester.java client [ipv6_address] [port]
 ```
 
 ### Viewing Available IPv6 Addresses
@@ -51,7 +51,7 @@ java java/src/com/ipv6tools/IPv6Tester.java client [ipv6_address] [port]
 To see all available IPv6 addresses on your system, simply run the tool without any arguments:
 
 ```bash
-java java/src/com/ipv6tools/IPv6Tester.java
+java java/src/IPv6Tester.java
 ```
 
 This will display:
@@ -63,22 +63,22 @@ This will display:
 
 1. View available IPv6 addresses and usage help:
 ```bash
-java java/src/com/ipv6tools/IPv6Tester.java
+java java/src/IPv6Tester.java
 ```
 
 2. Start a server on the default IPv6 address (::1) and port (8080):
 ```bash
-java java/src/com/ipv6tools/IPv6Tester.java server
+java java/src/IPv6Tester.java server
 ```
 
 3. Start a server on a specific IPv6 address and port:
 ```bash
-java java/src/com/ipv6tools/IPv6Tester.java server 2001:db8:1234:5678::1 8888
+java java/src/IPv6Tester.java server 2001:db8:1234:5678::1 8888
 ```
 
 4. Connect a client to the server:
 ```bash
-java java/src/com/ipv6tools/IPv6Tester.java client 2001:db8:1234:5678::1 8888
+java java/src/IPv6Tester.java client 2001:db8:1234:5678::1 8888
 ```
 
 ## 🔍 How it Works
