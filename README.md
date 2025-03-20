@@ -138,7 +138,7 @@ Available IPv6 addresses on this host:
   wlan0: 2001:db8:abcd:efgh::1
   lo: ::1
 
-Java IPv6 preferences:
+Java IPv6 related properties:
   java.net.preferIPv4Stack: false
   java.net.preferIPv6Addresses: false
 

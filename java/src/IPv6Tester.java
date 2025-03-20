@@ -60,7 +60,7 @@ public class IPv6Tester {
         System.out.println("  port             - Optional. Port number (default: 8080)");
         System.out.println("\nAvailable IPv6 addresses on this host:");
         printAvailableIPv6Addresses();
-        System.out.println("\nJava IPv6 preferences:");
+        System.out.println("\nJava IPv6 properties:");
         System.out.println("  java.net.preferIPv4Stack: " + System.getProperty("java.net.preferIPv4Stack", "false"));
         System.out.println("  java.net.preferIPv6Addresses: " + System.getProperty("java.net.preferIPv6Addresses", "false"));
         System.out.println("\nExamples:");
