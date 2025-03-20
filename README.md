@@ -19,6 +19,7 @@ A collection of tools for testing and experimenting with IPv6 connectivity. This
 ## 📋 Prerequisites
 
 - Java 17 or higher
+- Python 3.10 or higher
 - IPv6-enabled network environment
 - Basic understanding of IPv6 addressing
 
@@ -32,21 +33,23 @@ cd ipv6-tools
 
 ## 💻 Usage
 
+### Java Version
+
 The `IPv6Tester` class can be run in either server or client mode. Here are the basic usage patterns:
 
-### Running as Server
+#### Running as Server
 
 ```bash
 java java/src/IPv6Tester.java server [ipv6_address] [port]
 ```
 
-### Running as Client
+#### Running as Client
 
 ```bash
 java java/src/IPv6Tester.java client [ipv6_address] [port]
 ```
 
-### Viewing Available IPv6 Addresses
+#### Viewing Available IPv6 Addresses
 
 To see all available IPv6 addresses on your system, simply run the tool without any arguments:
 
@@ -54,12 +57,33 @@ To see all available IPv6 addresses on your system, simply run the tool without 
 java java/src/IPv6Tester.java
 ```
 
-This will display:
-- Usage instructions
-- List of all available IPv6 addresses on your system, showing the interface name and address
-- Example commands
+### Python Version
+
+The Python version provides the same functionality using async/await patterns. Here are the usage patterns:
+
+#### Running as Server
+
+```bash
+python python/src/ipv6_tester.py server [ipv6_address] [port]
+```
+
+#### Running as Client
+
+```bash
+python python/src/ipv6_tester.py client [ipv6_address] [port]
+```
+
+#### Viewing Available IPv6 Addresses
+
+To see all available IPv6 addresses on your system, simply run the tool without any arguments:
+
+```bash
+python python/src/ipv6_tester.py
+```
 
 ## 📝 Examples
+
+### Java Examples
 
 1. View available IPv6 addresses and usage help:
 ```bash
@@ -79,6 +103,28 @@ java java/src/IPv6Tester.java server 2001:db8:1234:5678::1 8888
 4. Connect a client to the server:
 ```bash
 java java/src/IPv6Tester.java client 2001:db8:1234:5678::1 8888
+```
+
+### Python Examples
+
+1. View available IPv6 addresses and usage help:
+```bash
+python python/src/ipv6_tester.py
+```
+
+2. Start a server on the default IPv6 address (::1) and port (8080):
+```bash
+python python/src/ipv6_tester.py server
+```
+
+3. Start a server on a specific IPv6 address and port:
+```bash
+python python/src/ipv6_tester.py server 2001:db8:1234:5678::1 8888
+```
+
+4. Connect a client to the server:
+```bash
+python python/src/ipv6_tester.py client 2001:db8:1234:5678::1 8888
 ```
 
 ## 🔍 How it Works
@@ -128,7 +174,7 @@ The client will:
 
 When running without arguments, you'll see output like this:
 ```
-Usage: java IPv6Tester <server|client> [ipv6_address] [port]
+Usage: python ipv6_tester.py <server|client> [ipv6_address] [port]
   server|client    - Required. Run as server or client
   ipv6_address     - Optional. IPv6 address (default: ::1)
   port             - Optional. Port number (default: 8080)
@@ -138,14 +184,14 @@ Available IPv6 addresses on this host:
   wlan0: 2001:db8:abcd:efgh::1
   lo: ::1
 
-Java IPv6 related properties:
-  java.net.preferIPv4Stack: false
-  java.net.preferIPv6Addresses: false
+Python IPv6 related properties:
+  socket.AF_INET6: 10
+  socket.has_ipv6: True
 
 Examples:
-  java IPv6Tester server
-  java IPv6Tester server 2001:db8:1234:5678::1
-  java IPv6Tester client 2001:db8:1234:5678::1 8888
+  python ipv6_tester.py server
+  python ipv6_tester.py server 2001:db8:1234:5678::1
+  python ipv6_tester.py client 2001:db8:1234:5678::1 8888
 ```
 
 ## 🤝 Contributing
@@ -154,9 +200,10 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
 - Inspired by the need for simple IPv6 testing tools
 - Built with Java's built-in networking capabilities
+- Python implementation using asyncio for efficient async I/O
