@@ -24,8 +24,8 @@ public class IPv6Tester {
 
     public static void main(String[] args) {
         // Prefer IPv6 addresses
-        System.setProperty("java.net.preferIPv4Stack", "false");
-        System.setProperty("java.net.preferIPv6Addresses", "true");
+        // System.setProperty("java.net.preferIPv4Stack", "false");
+        // System.setProperty("java.net.preferIPv6Addresses", "true");
 
         if (args.length < 1 || args.length > 3) {
             printUsage();
@@ -60,6 +60,9 @@ public class IPv6Tester {
         System.out.println("  port             - Optional. Port number (default: 8080)");
         System.out.println("\nAvailable IPv6 addresses on this host:");
         printAvailableIPv6Addresses();
+        System.out.println("\nJava IPv6 preferences:");
+        System.out.println("  java.net.preferIPv4Stack: " + System.getProperty("java.net.preferIPv4Stack", "false"));
+        System.out.println("  java.net.preferIPv6Addresses: " + System.getProperty("java.net.preferIPv6Addresses", "false"));
         System.out.println("\nExamples:");
         System.out.println("  java IPv6Tester server");
         System.out.println("  java IPv6Tester server 2001:db8:1234:5678::1");
