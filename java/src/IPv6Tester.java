@@ -129,10 +129,10 @@ public class IPv6Tester {
     }
 
     private static void handleClient(Socket clientSocket, String serverAddress) {
+        String clientAddress = clientSocket.getInetAddress().getHostAddress();
         try (clientSocket;
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-            String clientAddress = clientSocket.getInetAddress().getHostAddress();
             while (true) {
                 // Read client message
                 String message = in.readLine();
