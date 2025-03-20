@@ -75,7 +75,7 @@ public class IPv6Tester {
                     for (InetAddress addr : addresses) {
                         if (addr instanceof Inet6Address) {
                             Inet6Address ipv6Addr = (Inet6Address) addr;
-                            System.out.printf("  %s: %s%n", iface.getDisplayName(), ipv6Addr.getHostAddress());
+                            System.out.printf("  %s: %s\n", iface.getDisplayName(), ipv6Addr.getHostAddress());
                         }
                     }
                 }
