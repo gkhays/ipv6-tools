@@ -115,7 +115,7 @@ When running in client mode, you'll see output like this:
 ```
 Connected to server at [2001:db8:1234:5678::1]:8080
 Sent to server: Hello from IPv6 client at 2024-03-21 14:30:45
-Server response: Server received your message at 2024-03-21 14:30:45 address 2001:db8:1234:5678::2
+Server response: Server received your message at 2024-03-21 14:30:45 at address 2001:db8:1234:5678::1
 ```
 
 The client will:
@@ -137,6 +137,10 @@ Available IPv6 addresses on this host:
   eth0: 2001:db8:1234:5678::1
   wlan0: 2001:db8:abcd:efgh::1
   lo: ::1
+
+Java IPv6 preferences:
+  java.net.preferIPv4Stack: false
+  java.net.preferIPv6Addresses: false
 
 Examples:
   java IPv6Tester server
