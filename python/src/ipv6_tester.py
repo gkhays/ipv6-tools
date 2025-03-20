@@ -43,10 +43,12 @@ class IPv6Tester:
     def print_available_ipv6_addresses(self) -> None:
         """Print all available IPv6 addresses on the system."""
         try:
-            for interface in socket.getaddrinfo(host=socket.gethostname(), port=None, family=socket.AF_INET6):
-                addr = interface[4][0]
-                if not addr.startswith('::1'):  # Skip loopback
-                    self.logger.info(f"  {interface[3]}: {addr}")
+            ipv6_addresses = [
+                f"  {interface[3]}: {interface[4][0]}"
+                for interface in socket.getaddrinfo(host=socket.gethostname(), port=None, family=socket.AF_INET6, proto=socket.IPPROTO_TCP)
+            ]
+            for addr in ipv6_addresses:
+                self.logger.info(addr)
         except Exception as e:
             self.logger.error(f"Error getting network interfaces: {e}")
 
