@@ -188,7 +188,7 @@ Available IPv6 addresses on this host:
 Python IPv6 related properties:
   socket.AF_INET6: 10
   socket.has_ipv6: True
-  IPV6_V6ONLY: not set
+  IPV6_V6ONLY environment variable: not set
 
 System IPv6 configuration:
   System IPv6 enabled: true
