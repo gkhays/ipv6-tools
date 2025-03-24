@@ -21,6 +21,7 @@ A collection of tools for testing and experimenting with IPv6 connectivity. This
 
 - Java 17 or higher
 - Python 3.10 or higher
+- Docker 27.5 or higher
 - IPv6-enabled network environment
 - Basic understanding of IPv6 addressing
 
@@ -32,7 +33,32 @@ git clone https://github.com/yourusername/ipv6-tools.git
 cd ipv6-tools
 ```
 
+## 🐳 Docker
+
+1. Build the container images.
+```bash
+./build.sh
+```
+
 ## 💻 Usage
+
+### Container Versions
+
+The `IPv6` tester utilities may be run in either server or client mode.
+
+#### Running as Server
+
+```bash
+docker run --rm -it ipv6tester-java
+```
+
+#### Running as Client
+
+```bash
+docker run --rm -it ipv6tester-java IPv6Tester.java client
+```
+
+The pattern is similar for the Python utility. Invoke the Python container (`ipv6tester-python`) and substitute `ipv6_tester.py` for `IPv6Tester.java`. Additional address and port parameters apply as below.
 
 ### Java Version
 

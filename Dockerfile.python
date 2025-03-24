@@ -14,6 +14,8 @@ WORKDIR /app
 COPY ../java/src/IPv6Tester.java /app
 COPY ../python/src/ipv6_tester.py /app
 
+ENTRYPOINT [ "python" ]
+
 EXPOSE 8080
 
-CMD [ "java", "IPv6Tester.java", "server" ]
+CMD [ "ipv6_tester.py", "server" ]
