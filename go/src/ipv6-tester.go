@@ -34,6 +34,7 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Validate the IPv6 address
 	if len(*ipv6Address) > 0 {
 		err := error(nil)
 		ip := net.ParseIP(*ipv6Address)
@@ -84,6 +85,30 @@ func printIPv6Addresses() {
 			}
 		}
 	}
+}
+
+func runAsClient(ipv6Addr string, port int) error {
+	fullAddr := net.JoinHostPort(ipv6Addr, strconv.Itoa(port))
+	conn, err := net.Dial("tcp6", fullAddr)
+	if err != nil {
+		return fmt.Errorf("failed to connect to %s: %v", fullAddr, err)
+	}
+	defer conn.Close()
+
+	fmt.Printf("Connected to %s\n", fullAddr)
+
+	scanner := bufio.NewScanner(conn)
+
+	for scanner.Scan() {
+		message := scanner.Text()
+		fmt.Printf("Received from server: %s\n", message)
+	}
+
+	if err := scanner.Err(); err != nil {
+		return fmt.Errorf("error reading from server: %v", err)
+	}
+
+	return nil
 }
 
 func runAsServer(ipv6Addr string, port int) error {
