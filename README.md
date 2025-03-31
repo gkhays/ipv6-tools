@@ -1,7 +1,7 @@
 # IPv6 Tools
 
-[![Java](https://img.shields.io/badge/Java-17-red.svg)](https://www.oracle.com/java/)
-[![Python](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/)
+[![Java](https://img.shields.io/badge/Java-23-red.svg)](https://www.oracle.com/java/)
+[![Python](https://img.shields.io/badge/Python-3.13-blue.svg)](https://www.python.org/)
 [![Docker](https://img.shields.io/badge/Docker-27.5-blue.svg)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
@@ -20,8 +20,8 @@ A collection of tools for testing and experimenting with IPv6 connectivity. This
 
 ## 📋 Prerequisites
 
-- Java 17 or higher
-- Python 3.10 or higher
+- Java 23 or higher
+- Python 3.13 or higher
 - Docker 27.5 or higher
 - IPv6-enabled network environment
 - Basic understanding of IPv6 addressing
